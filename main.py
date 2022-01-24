@@ -6,12 +6,15 @@ from ddeint import ddeint
 def equation(N, t):
     return r * N(t) * (1 - N(t-delay)/K)*(N(t)/A-1)
 
-def initial_history_func_0(t):
+
+def initial_history_func(t):
     return N0
 
-def detectoscillation(X):
+
+def detect_oscillation(X):
     dx = np.diff(X)
     return not np.all(dx >= -0.001)
+
 
 if __name__ == '__main__':
     global r, A, K, N0
@@ -27,11 +30,11 @@ if __name__ == '__main__':
     global delay
 
     for delay in T:
-        Ns.append(ddeint(equation, initial_history_func_0, ts))
+        Ns.append(ddeint(equation, initial_history_func, ts))
 
     for i, sol in enumerate(Ns):
         plt.plot(ts, sol, linewidth=1, label=f'delay = {T[i]}')
-        if detectoscillation(Ns[i])==True:
+        if detect_oscillation(Ns[i])==True:
             Tcritical = T[i]
             break
 
