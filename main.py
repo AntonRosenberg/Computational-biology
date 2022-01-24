@@ -13,7 +13,7 @@ def initial_history_func(t):
 
 def detect_oscillation(X):
     dx = np.diff(X)
-    return not np.all(dx >= -0.001)
+    return not np.all(dx >= -1e-2)
 
 
 if __name__ == '__main__':
@@ -23,7 +23,7 @@ if __name__ == '__main__':
     K=100
     N0=50
 
-    T = [0.1*_ for _ in range(1, 51)]
+    T = [0.1*_ for _ in range(12, 22)]
     ts = np.linspace(0, 50, 5000)
     Ns=[]
 
@@ -40,5 +40,5 @@ if __name__ == '__main__':
 
     print(Tcritical)
 
-    #plt.legend(loc="upper left")
+    plt.legend(loc="lower right")
     plt.show()
