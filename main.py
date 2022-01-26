@@ -13,7 +13,7 @@ def initial_history_func(t):
 
 def detect_oscillation(X):
     dx = np.diff(X)
-    return not np.all(dx >= -1e-2)
+    return not np.all(dx >= -1e-3)
 
 
 if __name__ == '__main__':
@@ -33,12 +33,12 @@ if __name__ == '__main__':
         Ns.append(ddeint(equation, initial_history_func, ts))
 
     for i, sol in enumerate(Ns):
-        plt.plot(ts, sol, linewidth=1, label=f'delay = {T[i]}')
+        plt.plot(ts, sol, linewidth=1, label=f'delay = {round(T[i],1)}')
         if detect_oscillation(Ns[i])==True:
             Tcritical = T[i]
             break
 
-    print(Tcritical)
+    print(f'Tcritical = {Tcritical}')
 
     plt.legend(loc="lower right")
     plt.show()
