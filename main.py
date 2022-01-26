@@ -23,8 +23,8 @@ if __name__ == '__main__':
     K=100
     N0=50
 
-    T = [0.1*_ for _ in range(10, 20)]
-    tmax = 50
+    T = [0.1*_ for _ in range(37, 41)]
+    tmax = 800
     ts = np.linspace(0, tmax, 100*tmax)
     Ns = []
 
@@ -37,9 +37,14 @@ if __name__ == '__main__':
 
     for i, sol in enumerate(Ns):
         plt.plot(ts, sol, linewidth=1, label=f'delay = {round(T[i],1)}')
+        '''
         if detect_oscillation(Ns[i])==True:
             Tcritical = T[i]
             break
+        '''
+    plt.title('N(t)')
+    plt.xlabel('t')
+    plt.ylabel('N(t)')
     plt.legend(loc="lower right")
     '''
     for i,sol in enumerate(Ns):
@@ -64,6 +69,9 @@ if __name__ == '__main__':
             break
         '''
         plt.plot(sol, Ndot[i,:], label=f'delay = {round(T[i],1)}')
+    plt.title('dN/dt')
+    plt.xlabel('N(t)')
+    plt.ylabel('dN/dt')
     #print(Tcritical)
-    #plt.legend(loc="lower right")
+    plt.legend(loc="lower left")
     plt.show()
