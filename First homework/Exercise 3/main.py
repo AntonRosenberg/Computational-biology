@@ -20,8 +20,9 @@ if __name__ == '__main__':
     plt.xlabel('R')
 
     plt.subplot(1, 2, 2)
-    indexRs = [0]
+    indexRs = [10]
     for l in indexRs:
         plt.plot(np.linspace(1,numGen,numGen),eta[:,l])
-
+    plt.xlabel('t')
+    plt.ylabel('\u03B7')
     plt.show()
