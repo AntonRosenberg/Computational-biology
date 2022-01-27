@@ -23,7 +23,7 @@ if __name__ == '__main__':
     K=100
     N0=50
 
-    T = [0.1*_ for _ in range(37, 41)]
+    T = [0.1*_ for _ in range(14, 18)]
     tmax = 800
     ts = np.linspace(0, tmax, 100*tmax)
     Ns = []
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     for delay in T:
         Ns.append(ddeint(equation, initial_history_func, ts))
 
-    plt.subplot(1,2,1)
+    plt.subplot(1, 2, 1)
 
     for i, sol in enumerate(Ns):
         plt.plot(ts, sol, linewidth=1, label=f'delay = {round(T[i],1)}')
