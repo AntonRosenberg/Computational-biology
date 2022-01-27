@@ -20,7 +20,7 @@ if __name__ == '__main__':
     plt.xlabel('R')
 
     plt.subplot(1, 2, 2)
-    indexRs = [10]
+    indexRs = [65]
     for l in indexRs:
         plt.plot(np.linspace(1,numGen,numGen),eta[:,l])
     plt.xlabel('t')
