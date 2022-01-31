@@ -23,7 +23,7 @@ if __name__ == '__main__':
     K=100
     N0=50
 
-    T = [0.1*_ for _ in range(14, 18)]
+    T = [0.1*_ for _ in range(38, 41)]
     tmax = 800
     ts = np.linspace(0, tmax, 100*tmax)
     Ns = []
@@ -59,9 +59,9 @@ if __name__ == '__main__':
     for i, sol in enumerate(Ns):
         for t in range(len(sol)):
             if t-100*delay>0:
-                Ndot[i,t] =r * sol[t] * (1 - sol[round(t-100*T[i])]/K)*(sol[t]/A-1)
+                Ndot[i,t] = r * sol[t] * (1 - sol[round(t-100*T[i])]/K)*(sol[t]/A-1)
             else:
-                Ndot[i,t]=r * sol[t] * (1 - N0 / K) * (sol[t] / A - 1)
+                Ndot[i,t]= r * sol[t] * (1 - N0 / K) * (sol[t] / A - 1)
         '''
         Nrounded = [round(value,5) for value in Ndot[i,:]]
         if len(set(Nrounded)) != len(Nrounded):
