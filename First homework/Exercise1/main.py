@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from ddeint import ddeint
+from scipy.signal import argrelextrema
 
 
 def equation(N, t):
@@ -16,11 +17,11 @@ def detect_oscillation(X):
     return not np.all(dx >= -1e-3)
 
 def detect_limitcycle(X):
-    X = round(X,3)
-    max1=X[argrelextrema(X, np.greater)[0]]
-    max2=X[argrelextrema(X, np.greater)[1]]
-    if round(max1/max2,2)==1:
-        return True
+    X = np.array([round(float(item), 3) for item in X])
+    maximums=X[argrelextrema(X, np.greater)[0]]
+    if len(maximums) > 9:
+        if round(maximums[-1]/maximums[-2],2)==1:
+            return True
     return False
 
 if __name__ == '__main__':
@@ -30,7 +31,7 @@ if __name__ == '__main__':
     K=100
     N0=50
 
-    T = [0.1*_ for _ in range(30, 45)]
+    T = [0.1*_ for _ in range(35, 45)]
 
     tmax = 800
     ts = np.linspace(0, tmax, 100*tmax)
