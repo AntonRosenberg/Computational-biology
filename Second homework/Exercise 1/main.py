@@ -10,10 +10,10 @@ def plot_wave(u, num_plots, t_max, dt):
     plt.legend()
 
 
-
-def plot_wave_phase(u, num_plots, t_max, dt):
+def plot_wave_phase(u, v, num_plots, t_max, dt):
     fig2, ax2 = plt.subplots(nrows=2)
     ax2[0].plot(u[int(2*(t_max / (dt * num_plots)))][:], label=f't={int(2*(t_max / num_plots))}')
+    ax2[1].plot(v, u[int(2*(t_max / (dt * num_plots)))][:])
 
 
 if __name__ == '__main__':
@@ -44,5 +44,5 @@ if __name__ == '__main__':
     index2 = u_rounded2.index(3.8)
     print(f'velocity c = {(index2-index1)/int((t_max/(dt*num_plots)))}')
     plot_wave(u, num_plots, t_max, dt)
-    plot_wave_phase(u, num_plots, t_max, dt)
+    plot_wave_phase(u, v, num_plots, t_max, dt)
     plt.show()
