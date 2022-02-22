@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def plot_wave(u, num_plots, t_max, dt):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 10))
     for t in range(num_plots):
         ax.plot(u[int(t*(t_max/(dt*num_plots)))][:], label=f't={int(t*(t_max/num_plots))}')
     plt.title(f'\u03BE = {psi_0}, u0 = {u0:.2f}, velocity c = {(index2 - index1) / int((t_max / (dt * num_plots)))}')
@@ -11,9 +11,18 @@ def plot_wave(u, num_plots, t_max, dt):
 
 
 def plot_wave_phase(u, v, num_plots, t_max, dt):
-    fig2, ax2 = plt.subplots(nrows=2)
-    ax2[0].plot(u[int(2*(t_max / (dt * num_plots)))][:], label=f't={int(2*(t_max / num_plots))}')
-    ax2[1].plot(v, u[int(2*(t_max / (dt * num_plots)))][:])
+    fig2, ax2 = plt.subplots(nrows=2, figsize=(10, 10))
+    ax2[0].plot(u[int(2*(t_max / (dt * num_plots)))][:], label=f't={int(2*(t_max/num_plots))}')
+    ax2[1].plot(v, u[int(2*(t_max / (dt * num_plots)))][:], label=f't={int(2*(t_max/num_plots))}')
+    ax2[0].set_ylabel('u')
+    ax2[0].set_xlabel('x')
+    ax2[1].set_ylabel('u')
+    ax2[1].set_xlabel('v')
+
+    ax2[0].legend()
+    ax2[1].legend()
+    ax2[0].set_title(f'Wave front')
+    ax2[1].set_title(f'Phase space')
 
 
 if __name__ == '__main__':
@@ -37,6 +46,11 @@ if __name__ == '__main__':
                 u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + u[i][j-1]-u[i][j])*dt+u[i][j]
             else:
                 u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + u[i][j-1]+u[i][j+1]-2*u[i][j])*dt+u[i][j]
+
+
+    v = [u[int(2*(t_max / (dt * num_plots)))][i+1]-u[int(2*(t_max / (dt * num_plots)))][i] for i in range(L-1)]
+    v[0] = 0
+    v.append(0)
 
     u_rounded1 = [round(num, 1) for num in u[int((t_max/(dt*num_plots)))][:]]
     u_rounded2 = [round(num, 1) for num in u[2*int((t_max / (dt * num_plots)))][:]]
