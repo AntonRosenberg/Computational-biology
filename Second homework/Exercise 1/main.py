@@ -34,7 +34,7 @@ if __name__ == '__main__':
     dt = 0.01
     t_max = 1000
     u0 = (q-1)/2 - np.sqrt(((q-1)/2)**2-q/rho+q)
-    u0=1.1*u0
+    u0=u0
     u = [[0 for i in range(L)] for j in range(int(t_max/dt))]
     u[0][:] = [u0/(1+np.exp(i-psi_0)) for i in range(L)] # Exercise a-b
     #u[0][:] = [u0 / np.exp((i - psi_0)**2) for i in range(L)] # Exercise c
@@ -58,8 +58,8 @@ if __name__ == '__main__':
 
     # Index decided manually depending on which values are present in u_rounded1
     print(u_rounded1)
-    index1 = u_rounded1.index(3.4)
-    index2 = u_rounded2.index(3.4)
+    index1 = u_rounded1.index(0)
+    index2 = u_rounded2.index(0)
 
     print(f'velocity c = {(index2-index1)/int((t_max/(dt*num_plots)))}')
     plot_wave(u, num_plots, t_max, dt)
