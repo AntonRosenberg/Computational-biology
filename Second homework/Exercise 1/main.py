@@ -30,10 +30,11 @@ if __name__ == '__main__':
     L = 100
     rho = 0.5
     q = 8
-    psi_0 = 20
+    psi_0 = 50
     dt = 0.01
     t_max = 1000
-    u0 = (q-1)/2 + np.sqrt(((q-1)/2)**2-q/rho+q)
+    u0 = (q-1)/2 - np.sqrt(((q-1)/2)**2-q/rho+q)
+    u0=1.1*u0
     u = [[0 for i in range(L)] for j in range(int(t_max/dt))]
     u[0][:] = [u0/(1+np.exp(i-psi_0)) for i in range(L)] # Exercise a-b
     #u[0][:] = [u0 / np.exp((i - psi_0)**2) for i in range(L)] # Exercise c
@@ -54,8 +55,12 @@ if __name__ == '__main__':
 
     u_rounded1 = [round(num, 1) for num in u[int((t_max/(dt*num_plots)))][:]]
     u_rounded2 = [round(num, 1) for num in u[2*int((t_max / (dt * num_plots)))][:]]
-    index1 = u_rounded1.index(3.8)
-    index2 = u_rounded2.index(3.8)
+
+    # Index decided manually depending on which values are present in u_rounded1
+    print(u_rounded1)
+    index1 = u_rounded1.index(3.4)
+    index2 = u_rounded2.index(3.4)
+
     print(f'velocity c = {(index2-index1)/int((t_max/(dt*num_plots)))}')
     plot_wave(u, num_plots, t_max, dt)
     plot_wave_phase(u, v, num_plots, t_max, dt)
