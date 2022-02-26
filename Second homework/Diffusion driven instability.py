@@ -29,9 +29,9 @@ getLaplace(state)
 L = 128
 dt = 0.01
 Dvlist = [2.3,3,5,9]
-Dv = 2.3
+#Dv = 2.3
 Du = 1
-tmax = 10
+tmax = 1
 a = 3
 b = 8
 
@@ -56,6 +56,7 @@ for d in range(len(Dvlist)):
         u[d] = u[d] + (a - (b+1)*u[d] + u[d]**2*v[d] + Du*getLaplace(u[d]))*dt
         v[d] = v[d] + (b*u[d]-u[d]**2*v[d] + Dv * getLaplace(v[d])) * dt
 
+'''
 print(v)
 print(np.min(v),np.min(u))
 print(np.max(v),np.max(u))
@@ -65,6 +66,7 @@ print(min,max)
 
 print(np.min(u))
 print(np.max(u))
+'''
 
 
 fig, ax = plt.subplots()
