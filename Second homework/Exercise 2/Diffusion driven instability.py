@@ -12,12 +12,10 @@ def getPeriodicBoundary(state):
 
 def getLaplace(state):
     periodicState = getPeriodicBoundary(state)
-    #print(state)
-    #print(periodicState)
     lap = np.zeros(np.shape(state))
     for i in range(1,len(periodicState)-1):
         for j in range(1,len(periodicState)-1):
-            lap[i-1,j-1] = periodicState[i+1,j]+periodicState[i-1,j]+periodicState[i,j+1]-4*periodicState[i,j]
+            lap[i-1,j-1] = periodicState[i+1,j]+periodicState[i-1,j]+periodicState[i,j+1]+periodicState[i,j-1]-4*periodicState[i,j]
     #print(lap)
     return lap
 
@@ -31,14 +29,16 @@ dt = 0.01
 Dvlist = [2.3,3,5,9]
 #Dv = 2.3
 Du = 1
-tmax = 1
+tmax = 10
 a = 3
 b = 8
 
 u = [np.zeros((L, L)) for i in range(len(Dvlist))]
 v = [np.zeros((L, L)) for i in range(len(Dvlist))]
-ustar = 3
-vstar = 8/3
+a = 3
+b = 8
+ustar = a
+vstar = b/a
 
 #
 #u = np.zeros((L,L))
@@ -68,12 +68,13 @@ print(np.min(u))
 print(np.max(u))
 '''
 
-
-fig, ax = plt.subplots()
-c = ax.pcolormesh(u[0], cmap='RdBu')
-plt.title(f"diffusion: dV = {Dvlist[0]}")
-fig.colorbar(c, ax=ax)
-
+for plot in range(len(Dvlist)):
+    fig, ax = plt.subplots()
+    c = ax.pcolormesh(u[plot], cmap='jet',vmin=2, vmax=4)
+    #c = plt.imshow(u[plot])
+    plt.title(f"diffusion: dV = {Dvlist[plot]}")
+    fig.colorbar(c, ax=ax)
+'''
 fig, ax = plt.subplots()
 c = ax.pcolormesh(u[1], cmap='RdBu')
 plt.title(f"diffusion: dV = {Dvlist[1]}")
@@ -89,5 +90,5 @@ c = ax.pcolormesh(u[3], cmap='RdBu')
 plt.title(f"diffusion: dV = {Dvlist[3]}")
 fig.colorbar(c, ax=ax)
 
-
+'''
 plt.show()
