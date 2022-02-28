@@ -64,10 +64,10 @@ for d in range(len(Dvlist)):
 
         an_array = np.array(u[d])
         another_array = np.array(uTemp)
-        if np.mod(i,500)==0:
-            print(((u[d] - uTemp)**2).mean().mean())
+        #if np.mod(i,500)==0:
+            #print(((u[d] - uTemp)**2).mean().mean())
         if ((u[d] - uTemp)**2).mean().mean() <0.0000001:
-            print("convergence found",((u[d] - uTemp) ** 2).mean().mean())
+            #print("convergence found",((u[d] - uTemp) ** 2).mean().mean())
             timeStep[d] = i
             break
             '''
