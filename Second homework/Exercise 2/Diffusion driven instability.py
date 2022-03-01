@@ -29,7 +29,7 @@ dt = 0.01
 Dvlist = [2.3,3,5,9]
 #Dv = 2.3
 Du = 1
-tmax = 10
+tmax = 100
 a = 3
 b = 8
 
@@ -44,19 +44,43 @@ vstar = b/a
 #u = np.zeros((L,L))
 #v = np.zeros((L,L))
 #
+
+
 for d in range(len(Dvlist)):
     for i in range(L):
         for j in range(L):
+
             u[d][i,j] = ustar - ustar*0.1+np.random.rand(1)*ustar*0.2
             v[d][i,j] = vstar - vstar*0.1+np.random.rand(1)*vstar*0.2
 
+
+timeStep = np.zeros(len(Dvlist))
 for d in range(len(Dvlist)):
     for i in trange(int(tmax/dt)):
+        uTemp = u[d]
         Dv = Dvlist[d]
         u[d] = u[d] + (a - (b+1)*u[d] + u[d]**2*v[d] + Du*getLaplace(u[d]))*dt
         v[d] = v[d] + (b*u[d]-u[d]**2*v[d] + Dv * getLaplace(v[d])) * dt
 
-'''
+        an_array = np.array(u[d])
+        another_array = np.array(uTemp)
+        #if np.mod(i,500)==0:
+            #print(((u[d] - uTemp)**2).mean().mean())
+        if ((u[d] - uTemp)**2).mean().mean() <0.0000001:
+            #print("convergence found",((u[d] - uTemp) ** 2).mean().mean())
+            timeStep[d] = i
+            break
+            '''
+        comparison = an_array == another_array
+        equal_arrays = comparison.all()
+        if equal_arrays:
+            #print(equal_arrays)
+            #print(an_array)
+            #print(another_array)
+            
+            break
+        '''
+
 print(v)
 print(np.min(v),np.min(u))
 print(np.max(v),np.max(u))
@@ -66,14 +90,15 @@ print(min,max)
 
 print(np.min(u))
 print(np.max(u))
-'''
+
 
 for plot in range(len(Dvlist)):
     fig, ax = plt.subplots()
-    c = ax.pcolormesh(u[plot], cmap='jet',vmin=2, vmax=4)
+    c = ax.pcolormesh(u[plot], cmap='jet',vmin=min, vmax=max)#
     #c = plt.imshow(u[plot])
-    plt.title(f"diffusion: dV = {Dvlist[plot]}")
+    plt.title(f"diffusion: dV = {Dvlist[plot]}, convergence after {timeStep[plot]} iterations")
     fig.colorbar(c, ax=ax)
+    #plt.savefig(f"Dv={Dvlist[plot]}".replace(".",",")+".pdf")
 '''
 fig, ax = plt.subplots()
 c = ax.pcolormesh(u[1], cmap='RdBu')
