@@ -15,7 +15,6 @@ if __name__=='__main__':
     gamma = .1
 
     nCoupledOscillators = 100
-    #theta = (np.random.rand(nCoupledOscillators)-0.5)*2*np.pi/2
     theta = np.random.uniform(-np.pi/2, np.pi/2, size=nCoupledOscillators)
 
 
@@ -26,19 +25,12 @@ if __name__=='__main__':
     K_c=gamma*2
     Klist = K_c*np.array([0.1,1.1,3])
     r = np.zeros(int(tmax/dt))
-    #for i in range(1000):
-    #    theta = nextTheta(theta,omega,K_c*1.1,nCoupledOscillators,dt)
-    #    print(theta)
 
 
 
     for K in Klist:
         for t in trange(int(tmax / dt)):
             sum = np.sum([np.exp(complex(0, theta[k])) for k in range(nCoupledOscillators)])
-        
-            #for k in range(nCoupledOscillators):
-            #    sum += np.exp(1j * (theta[k]))
-        
             if t==0:
                 print(np.abs(sum)/nCoupledOscillators)
             theta = nextTheta(theta, omega, K, nCoupledOscillators, dt)

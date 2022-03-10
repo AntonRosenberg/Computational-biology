@@ -16,7 +16,6 @@ def getLaplace(state):
     for i in range(1,len(periodicState)-1):
         for j in range(1,len(periodicState)-1):
             lap[i-1,j-1] = periodicState[i+1,j]+periodicState[i-1,j]+periodicState[i,j+1]+periodicState[i,j-1]-4*periodicState[i,j]
-    #print(lap)
     return lap
 
 
@@ -40,10 +39,6 @@ b = 8
 ustar = a
 vstar = b/a
 
-#
-#u = np.zeros((L,L))
-#v = np.zeros((L,L))
-#
 
 
 for d in range(len(Dvlist)):
@@ -64,56 +59,22 @@ for d in range(len(Dvlist)):
 
         an_array = np.array(u[d])
         another_array = np.array(uTemp)
-        #if np.mod(i,500)==0:
-            #print(((u[d] - uTemp)**2).mean().mean())
         if ((u[d] - uTemp)**2).mean().mean() <0.0000001:
-            #print("convergence found",((u[d] - uTemp) ** 2).mean().mean())
             timeStep[d] = i
             break
-            '''
-        comparison = an_array == another_array
-        equal_arrays = comparison.all()
-        if equal_arrays:
-            #print(equal_arrays)
-            #print(an_array)
-            #print(another_array)
-            
-            break
-        '''
 
-print(v)
-print(np.min(v),np.min(u))
-print(np.max(v),np.max(u))
+
+
 min = np.min([np.min(v),np.min(u)])
 max = np.max([np.max(v),np.max(u)])
-print(min,max)
 
-print(np.min(u))
-print(np.max(u))
 
 
 for plot in range(len(Dvlist)):
     fig, ax = plt.subplots()
     c = ax.pcolormesh(u[plot], cmap='jet',vmin=min, vmax=max)#
-    #c = plt.imshow(u[plot])
     plt.title(f"diffusion: dV = {Dvlist[plot]}, convergence after {timeStep[plot]} iterations")
     fig.colorbar(c, ax=ax)
     #plt.savefig(f"Dv={Dvlist[plot]}".replace(".",",")+".pdf")
-'''
-fig, ax = plt.subplots()
-c = ax.pcolormesh(u[1], cmap='RdBu')
-plt.title(f"diffusion: dV = {Dvlist[1]}")
-fig.colorbar(c, ax=ax)
 
-fig, ax = plt.subplots()
-c = ax.pcolormesh(u[2], cmap='RdBu')
-plt.title(f"diffusion: dV = {Dvlist[2]}")
-fig.colorbar(c, ax=ax)
-
-fig, ax = plt.subplots()
-c = ax.pcolormesh(u[3], cmap='RdBu')
-plt.title(f"diffusion: dV = {Dvlist[3]}")
-fig.colorbar(c, ax=ax)
-
-'''
 plt.show()
