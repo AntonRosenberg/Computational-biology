@@ -6,7 +6,7 @@ def plot_wave(u, num_plots, t_max, dt):
     fig, ax = plt.subplots(figsize=(10, 10))
     for t in range(num_plots):
         ax.plot(u[int(t*(t_max/(dt*num_plots)))][:], label=f't={int(t*(t_max/num_plots))}')
-    plt.title(f'\u03BE = {psi_0}, u0 = {u0:.2f}, velocity c = {(index2 - index1) / int((t_max / (dt * num_plots)))}')
+    plt.title(f'\u03BE = {psi_0}, u0 = {u0:.2f}, velocity c = {(index2 - index1) / int((t_max / (num_plots)))}')
     plt.legend()
 
 
@@ -26,7 +26,7 @@ def plot_wave_phase(u, v, num_plots, t_max, dt):
 
 
 if __name__ == '__main__':
-    num_plots = 10
+    num_plots = 100
     L = 100
     rho = 0.5
     q = 8
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     dt = 0.01
     t_max = 1000
     u0 = (q-1)/2 - np.sqrt(((q-1)/2)**2-q/rho+q)
-    u0=u0
+
     u = [[0 for i in range(L)] for j in range(int(t_max/dt))]
     u[0][:] = [u0/(1+np.exp(i-psi_0)) for i in range(L)] # Exercise a-b
     #u[0][:] = [u0 / np.exp((i - psi_0)**2) for i in range(L)] # Exercise c
@@ -42,11 +42,11 @@ if __name__ == '__main__':
     for i in range(int(t_max/dt)-1):
         for j in range(L):
             if j == 0:
-                u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + u[i][j+1]-u[i][j])*dt+u[i][j]
+                u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + (u[i][j+1]-u[i][j]))*dt+u[i][j]
             elif j == L-1:
-                u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + u[i][j-1]-u[i][j])*dt+u[i][j]
+                u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + (u[i][j-1]-u[i][j]))*dt+u[i][j]
             else:
-                u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + u[i][j-1]+u[i][j+1]-2*u[i][j])*dt+u[i][j]
+                u[i+1][j] = (rho*u[i][j]*(1-u[i][j]/q)-u[i][j]/(1+u[i][j]) + (u[i][j-1]+u[i][j+1]-2*u[i][j]))*dt+u[i][j]
 
 
     v = [u[int(2*(t_max / (dt * num_plots)))][i+1]-u[int(2*(t_max / (dt * num_plots)))][i] for i in range(L-1)]
@@ -57,11 +57,17 @@ if __name__ == '__main__':
     u_rounded2 = [round(num, 1) for num in u[2*int((t_max / (dt * num_plots)))][:]]
 
     # Index decided manually depending on which values are present in u_rounded1
-    print(u_rounded1)
     index1 = u_rounded1.index(0)
     index2 = u_rounded2.index(0)
 
-    print(f'velocity c = {(index2-index1)/int((t_max/(dt*num_plots)))}')
+    c = (index2 - index1) / int((t_max / num_plots))
+
+    f_prime = -rho*(1-2*u0/q)+1/((1+u0)**2)
+    print(f_prime)
+    eigen_values = [-c+np.sqrt(c**2-4*f_prime), -c-np.sqrt(c**2-4*f_prime)]
+
+    print(f'velocity c = {c}, Eigen values = {eigen_values}')
+
     plot_wave(u, num_plots, t_max, dt)
     plot_wave_phase(u, v, num_plots, t_max, dt)
     plt.show()
