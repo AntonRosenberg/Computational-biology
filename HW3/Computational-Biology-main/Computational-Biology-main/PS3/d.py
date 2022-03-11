@@ -64,24 +64,28 @@ if __name__ == '__main__':
     t = [dt*i for i in range(int(Tmax/dt)+1)]
    # print(t)
     R = 2
-    n = np.zeros([R, int(Tmax/dt)+1])
+    n = np.ones([R, int(Tmax/dt)+1])
     #print(np.shape(n))
-    tin = 0
+
     for real in range(R):
+        tin = 0
         print(real)
         index_old = 0
-        while tin<Tmax:
+        while tin < Tmax-1:
             tb = freq_b[np.random.randint(0,len(freq_b))]
             td = freq_d[np.random.randint(0,len(freq_d))]
-            tbar = min(tb,td)
+            tbar = min(tb, td)
             tin = tin+tbar
             index = np.floor((tin-0)/tbar)+1
             index = int(index)
-            n[real,index_old:index-1] = n[real,index_old]
-            n[real,index] = n[real,index_old]+1
+            n[real, index_old:index-1] = n[real, index_old]
+            n[real, index] = n[real, index_old] + 1
             index_old = index
-        print(n[real])
+    print(n)
     for i in range(R):
-        plt.plot(n[i,:])
+        plt.plot(n[i, :])
+    plt.figure()
+    print(np.log(n[1,:]))
+    plt.plot(-np.log(n[1,:]))
     #print(n)
     plt.show()
